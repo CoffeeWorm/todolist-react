@@ -1,8 +1,8 @@
 import React from 'react';
-import TodoList from './pages/todo-list';
+import Index from './pages/index';
 class Main extends React.Component {
   render() {
-    return (<TodoList/>);
+    return (<Index/>);
   }
 }
 
