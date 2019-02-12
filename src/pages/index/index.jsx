@@ -10,6 +10,7 @@ import Footer from '@/footer';
 import 'moment/locale/zh-cn';
 import message from 'antd/lib/message';
 import moment from 'moment';
+import { ls } from '@/localstorage/ls';
 
 moment.locale('zh-cn');
 
@@ -18,8 +19,8 @@ class TodoList extends React.Component {
     super(props);
     this.state = {
       ...this.getStateInit(),
-      todoList: [],
-      tipTitle: '',
+      todoList: ls.get(),
+      tipTitle: ''
     };
     this.onChange = this.onChange.bind(this);
     this.onClear = this.onClear.bind(this);
@@ -30,6 +31,9 @@ class TodoList extends React.Component {
   }
   onChange(obj) {
     this.setState(obj);
+    if ('todoList' in obj) {
+      ls.coverSet(this.state.todoList);
+    }
   }
   onModify(id) {
     let todo = this.find(id);
@@ -38,14 +42,16 @@ class TodoList extends React.Component {
     }
     Object.assign(this.state, todo);
     this.setState(this.state);
+    ls.coverSet(this.state.todoList);
   }
   onDel(id) {
     this.setState({
       todoList: this.state.todoList.filter(item => item.id !== id)
     });
+    ls.del(id);
     message.success('删除成功！');
   }
-  getStateInit(){
+  getStateInit() {
     return {
       date: moment().format('YYYY-MM-DD'),
       time: moment().format('HH:mm:ss'),
@@ -63,7 +69,10 @@ class TodoList extends React.Component {
 
     todo.isFinish = !todo.isFinish;
     this.setState(this.state.todoList);
-    message.success(todo.isFinish? '终于完成了呢！': '小子，你怎么又把它拉回去？');
+    ls.coverSet(this.state.todoList);
+    message.success(
+      todo.isFinish ? '终于完成了呢！' : '小子，你怎么又把它拉回去？'
+    );
   }
   onClear() {
     this.setState({
@@ -98,8 +107,9 @@ class TodoList extends React.Component {
       todoList.push(todo);
     }
     this.setState({ todoList });
+    ls.coverSet(todoList);
     this.init();
-    message.success('保存成功！')
+    message.success('保存成功！');
   }
   render() {
     let unfinish = this.state.todoList.filter(item => !item.isFinish);

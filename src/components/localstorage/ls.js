@@ -17,6 +17,25 @@ class LocalStorageUtil {
       this.setOne(item);
     });
   }
+  coverSet(content) {
+    let tostr = Function.prototype.call.bind(Object.prototype.toString);
+    let copyContent = content;
+    if (
+      tostr(content) !== '[object Array]' &&
+      tostr(content) !== '[object Object]'
+    ) {
+      return;
+    }
+
+    if (tostr(content) !== '[object Array]') {
+      copyContent = [copyContent];
+    }
+    try {
+      __ls[this.__key] = trans2Json(copyContent);
+    } catch (e) {
+      console.error('Local Storage is full!\r\n', e);
+    }
+  }
   setOne(obj) {
     if (!('id' in obj)) {
       obj.id = +new Date();

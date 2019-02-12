@@ -3,7 +3,6 @@ import 'antd/lib/input/style';
 import 'antd/lib/button/style';
 import React, { Component } from 'react';
 import Todo from '../todo-item';
-
 class TodoList extends Component {
   constructor(props) {
     super(props);
@@ -26,16 +25,16 @@ class TodoList extends Component {
         <h3>{this.props.finish ? '下面的都干完啦！' : '看看你还要干点啥'}</h3>
         <ul
           className="todo-list"
-          // style={{ display: this.props.todoList.length !== 0 ? 'blobk' : 'none' }}
+          style={{ display: todos.length !== 0 ? 'block' : 'none' }}
         >
           {todos}
         </ul>
-        {/* <div
+        <div
           className="todo-list-none-tip"
-          style={{ display: this.props.todoList.length !== 0 ? 'none' : 'blobk' }}
+          style={{ display: todos.length !== 0 ? 'none' : 'block' }}
         >
           好像没有哦~
-        </div> */}
+        </div>
       </div>
     );
   }
