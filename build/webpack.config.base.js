@@ -16,7 +16,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, '../public'),
-    filename: '[name]_bunlde.js'
+    filename: 'js/[name]_bunlde.js'
   },
   target: 'web',
   module: {
@@ -34,7 +34,7 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              name: '[name].[ext]',
+              name: 'fonts/[name].[ext]',
               limit: 5 * 1024,
               useRelativePath: true
             }
@@ -42,12 +42,12 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(png|jpg|gif)$/,
         exclude: /node_modules/,
         use: {
           loader: 'url-loader',
           options: {
-            name: '../[path][name].[ext]',
+            name: 'img/[path][name].[ext]',
             limit: 1024 * 8,
             useRelativePath: true
           }
